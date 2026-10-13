@@ -1,0 +1,55 @@
+name: Assemble episode video
+
+on:
+  push:
+    paths:
+      - 'episodes/*/assemble-request.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: assemble-main
+  cancel-in-progress: false
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Concatenate scene videos
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x scripts/assemble_episode.sh
+          mapfile -t FILES < <(jq -r '.commits[]?.added[]?, .commits[]?.modified[]?' "$GITHUB_EVENT_PATH" | grep -E '^episodes/[0-9a-fA-F-]{36}/assemble-request\.json$' | sort -u)
+          if [ "${#FILES[@]}" -eq 0 ]; then
+            echo "no assemble request in this push"
+            exit 0
+          fi
+          for FILE in "${FILES[@]}"; do
+            scripts/assemble_episode.sh "$FILE"
+          done
+
+      - name: Commit final video
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          shopt -s nullglob
+          git add episodes/*/final.mp4 episodes/*/assemble-result.json
+          if [ -z "$(git status --porcelain --untracked-files=all -- episodes)" ]; then
+            echo "nothing to commit"
+            exit 0
+          fi
+          git commit -m "Assemble episode video"
+          git push
