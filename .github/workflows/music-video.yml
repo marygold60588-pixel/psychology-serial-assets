@@ -1,0 +1,81 @@
+name: Add music to the finished captioned video
+
+on:
+  push:
+    paths:
+      - 'episodes/*/music-request.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: music-main
+  cancel-in-progress: false
+
+jobs:
+  music:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Mix licensed music onto the captioned video
+        shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${BEFORE}" ] || [ "${BEFORE}" = "0000000000000000000000000000000000000000" ]; then
+            echo "push event has no before sha" >&2
+            exit 1
+          fi
+          curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/compare/${BEFORE}...${AFTER}" \
+            -o compare.json
+          if ! jq -e '.files | type == "array"' compare.json >/dev/null; then
+            echo "compare ${BEFORE}...${AFTER} did not return a file list" >&2
+            jq -r '.message // "no files"' compare.json >&2
+            exit 1
+          fi
+          mapfile -t FILES < <(jq -r '.files[]? | select(.status == "added" or .status == "modified" or .status == "renamed") | .filename' compare.json | grep -E '^episodes/[0-9a-fA-F-]{36}/music-request\.json$' | sort -u || true)
+          if [ "${#FILES[@]}" -eq 0 ]; then
+            echo "no music-request.json between ${BEFORE} and ${AFTER}" >&2
+            exit 1
+          fi
+          for FILE in "${FILES[@]}"; do
+            EPISODE_ID="$(basename "$(dirname "$FILE")")"
+            echo "REQUEST_FILE=${FILE}"
+            echo "EPISODE_ID=${EPISODE_ID}"
+            echo "REQUEST_FILE=${FILE}" >> "$GITHUB_ENV"
+            echo "EPISODE_ID=${EPISODE_ID}" >> "$GITHUB_ENV"
+            python3 scripts/add_music.py "$FILE"
+          done
+
+      - name: Commit the music mix
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "episodes/${EPISODE_ID}/final-captioned-music.mp4"
+          if git diff --cached --name-only | grep -E '/final\.mp4$|/final-captioned\.mp4$|assemble-request\.json$|caption-request\.json$'; then
+            echo "music job staged a protected file" >&2
+            exit 1
+          fi
+          if [ -z "$(git diff --cached --name-only)" ]; then
+            echo "music mix produced no file to commit" >&2
+            exit 1
+          fi
+          git commit -m "Add licensed music to the finished captioned video"
+          git push
