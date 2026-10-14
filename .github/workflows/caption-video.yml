@@ -1,0 +1,81 @@
+name: Caption finished episode video
+
+on:
+  push:
+    paths:
+      - 'episodes/*/caption-request.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: caption-main
+  cancel-in-progress: false
+
+jobs:
+  caption:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install ffmpeg and DejaVu
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
+
+      - name: Burn captions onto the finished video
+        shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${BEFORE}" ] || [ "${BEFORE}" = "0000000000000000000000000000000000000000" ]; then
+            echo "push event has no before sha" >&2
+            exit 1
+          fi
+          curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/compare/${BEFORE}...${AFTER}" \
+            -o compare.json
+          if ! jq -e '.files | type == "array"' compare.json >/dev/null; then
+            echo "compare ${BEFORE}...${AFTER} did not return a file list" >&2
+            jq -r '.message // "no files"' compare.json >&2
+            exit 1
+          fi
+          mapfile -t FILES < <(jq -r '.files[]? | select(.status == "added" or .status == "modified" or .status == "renamed") | .filename' compare.json | grep -E '^episodes/[0-9a-fA-F-]{36}/caption-request\.json$' | sort -u || true)
+          if [ "${#FILES[@]}" -eq 0 ]; then
+            echo "no caption-request.json between ${BEFORE} and ${AFTER}" >&2
+            exit 1
+          fi
+          for FILE in "${FILES[@]}"; do
+            EPISODE_ID="$(basename "$(dirname "$FILE")")"
+            echo "REQUEST_FILE=${FILE}"
+            echo "EPISODE_ID=${EPISODE_ID}"
+            echo "REQUEST_FILE=${FILE}" >> "$GITHUB_ENV"
+            echo "EPISODE_ID=${EPISODE_ID}" >> "$GITHUB_ENV"
+            python3 scripts/caption_episode.py "$FILE"
+          done
+
+      - name: Commit captioned video
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "episodes/${EPISODE_ID}/final-captioned.mp4"
+          if git diff --cached --name-only | grep -E '/final\.mp4$|assemble-request\.json$'; then
+            echo "caption job staged a protected file" >&2
+            exit 1
+          fi
+          if [ -z "$(git diff --cached --name-only)" ]; then
+            echo "caption produced no file to commit" >&2
+            exit 1
+          fi
+          git commit -m "Add captions to the finished episode video"
+          git push
