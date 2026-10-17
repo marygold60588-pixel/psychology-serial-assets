@@ -1,0 +1,25 @@
+{
+  "model_id": "kling-video/v2.5-turbo/standard/image-to-video",
+  "request": {
+    "prompt": "Use the reference image as the exact first frame. Preserve the same two people, faces, hair, ages, wardrobe, apartment, lighting, and framing.\nScene: Elena and Andrey are in a beautiful modern apartment. They stand beside each other, physically close but emotionally distant. Elena looks into Andrey's eyes, waiting for a response. Andrey meets her gaze for a brief moment, then slowly looks away. Elena notices and becomes still. The meaning is emotional rejection without a single word.\nMotion, once, at natural human speed: natural breathing; eye movement; one small turn of Andrey's head as he looks away; an almost imperceptible tightening in Elena's face.\nNo hand movement. No walking. No interaction with objects. No extra gestures. No camera movement, zoom, or pan. No change of lighting. No extra people. No speaking, no lip movement, no audio, no subtitles, no on-screen text, no logo, no watermark.\nDuration: 5 seconds.",
+    "duration": 5,
+    "image_url": "https://raw.githubusercontent.com/marygold60588-pixel/psychology-serial-assets/main/staging/model-tests/motion-ab-fair2-20261017-09599444/reference.png"
+  },
+  "request_id": "ec655a4b-397e-4d46-bc5e-0d4cbf621141",
+  "submitted_at": "2026-10-17T18:05:24+00:00",
+  "completed_at": "2026-10-17T18:06:39+00:00",
+  "estimate": {
+    "type": "estimate",
+    "credits": "3.360",
+    "usd": "0.210",
+    "discount": null
+  },
+  "completion": {
+    "status": "completed",
+    "request_id": "ec655a4b-397e-4d46-bc5e-0d4cbf621141",
+    "status_url": "https://api.higgsfield.ai/requests/ec655a4b-397e-4d46-bc5e-0d4cbf621141/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/ec655a4b-397e-4d46-bc5e-0d4cbf621141/cancel"
+  },
+  "paid_submissions": 1,
+  "content_type": "video/mp4"
+}
