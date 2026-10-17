@@ -1,0 +1,35 @@
+{
+  "test_id": "motion-ab-fair2-20261017-09599444",
+  "prompt_sha256": "f8180489a276883f2c84de652115a64d20f309c4c3eb18484e655166265fb702",
+  "image_sha256": "96d89de1fce7a5ac7ea5d589acd06d8ed40c2a89eac8f5b895d420ec42c4f905",
+  "image_dimensions": {
+    "width": 768,
+    "height": 1376
+  },
+  "duration_seconds": 5,
+  "motion_prompt": "Use the reference image as the exact first frame. Preserve the same two people, faces, hair, ages, wardrobe, apartment, lighting, and framing.\nScene: Elena and Andrey are in a beautiful modern apartment. They stand beside each other, physically close but emotionally distant. Elena looks into Andrey's eyes, waiting for a response. Andrey meets her gaze for a brief moment, then slowly looks away. Elena notices and becomes still. The meaning is emotional rejection without a single word.\nMotion, once, at natural human speed: natural breathing; eye movement; one small turn of Andrey's head as he looks away; an almost imperceptible tightening in Elena's face.\nNo hand movement. No walking. No interaction with objects. No extra gestures. No camera movement, zoom, or pan. No change of lighting. No extra people. No speaking, no lip movement, no audio, no subtitles, no on-screen text, no logo, no watermark.\nDuration: 5 seconds.",
+  "differences": [
+    "Kling accepts duration 5 or 10. Seedance accepts 4-30. Both requests set 5.",
+    "Neither schema accepts aspect_ratio. Both requests use the same PNG URL, so framing follows that file.",
+    "Kling has no resolution field. Seedance resolution is set to 720p, which is its documented default.",
+    "Kling has no audio field. Seedance generate_audio defaults to true and is set to false.",
+    "Seedance output_format is set to mp4, its documented default. Kling has no container field.",
+    "Kling cfg_scale and negative_prompt are omitted. Documented defaults are 0.5 and an empty negative prompt. Those controls are not given to only one model as extra creative text.",
+    "The current Seedance schema has no bitrate_mode field, so none is sent."
+  ],
+  "requests": {
+    "kling": {
+      "prompt": "Use the reference image as the exact first frame. Preserve the same two people, faces, hair, ages, wardrobe, apartment, lighting, and framing.\nScene: Elena and Andrey are in a beautiful modern apartment. They stand beside each other, physically close but emotionally distant. Elena looks into Andrey's eyes, waiting for a response. Andrey meets her gaze for a brief moment, then slowly looks away. Elena notices and becomes still. The meaning is emotional rejection without a single word.\nMotion, once, at natural human speed: natural breathing; eye movement; one small turn of Andrey's head as he looks away; an almost imperceptible tightening in Elena's face.\nNo hand movement. No walking. No interaction with objects. No extra gestures. No camera movement, zoom, or pan. No change of lighting. No extra people. No speaking, no lip movement, no audio, no subtitles, no on-screen text, no logo, no watermark.\nDuration: 5 seconds.",
+      "duration": 5,
+      "image_url": "https://raw.githubusercontent.com/marygold60588-pixel/psychology-serial-assets/main/staging/model-tests/motion-ab-fair2-20261017-09599444/reference.png"
+    },
+    "seedance": {
+      "prompt": "Use the reference image as the exact first frame. Preserve the same two people, faces, hair, ages, wardrobe, apartment, lighting, and framing.\nScene: Elena and Andrey are in a beautiful modern apartment. They stand beside each other, physically close but emotionally distant. Elena looks into Andrey's eyes, waiting for a response. Andrey meets her gaze for a brief moment, then slowly looks away. Elena notices and becomes still. The meaning is emotional rejection without a single word.\nMotion, once, at natural human speed: natural breathing; eye movement; one small turn of Andrey's head as he looks away; an almost imperceptible tightening in Elena's face.\nNo hand movement. No walking. No interaction with objects. No extra gestures. No camera movement, zoom, or pan. No change of lighting. No extra people. No speaking, no lip movement, no audio, no subtitles, no on-screen text, no logo, no watermark.\nDuration: 5 seconds.",
+      "duration": 5,
+      "image_url": "https://raw.githubusercontent.com/marygold60588-pixel/psychology-serial-assets/main/staging/model-tests/motion-ab-fair2-20261017-09599444/reference.png",
+      "resolution": "720p",
+      "generate_audio": false,
+      "output_format": "mp4"
+    }
+  }
+}
