@@ -4,8 +4,6 @@
   "status_url": "https://api.higgsfield.ai/requests/5493ddc3-6752-4770-acbc-f95fd33a7ad7/status",
   "submitted_at": "2026-10-17T13:35:14+00:00",
   "completed_at": "2026-10-17T13:37:27+00:00",
-  "provider_video_url": "https://d3u0tzju9qaucj.cloudfront.net/3ad99899-48f4-4a85-9687-872203a59fc7/334c859b-e04f-41d1-877f-179d82ae5a81.mp4",
-  "bytes": 1802431,
   "content_type": "video/mp4",
   "estimate": {
     "type": "description",
@@ -15,8 +13,7 @@
     "status": "completed",
     "request_id": "5493ddc3-6752-4770-acbc-f95fd33a7ad7",
     "status_url": "https://api.higgsfield.ai/requests/5493ddc3-6752-4770-acbc-f95fd33a7ad7/status",
-    "cancel_url": "https://api.higgsfield.ai/requests/5493ddc3-6752-4770-acbc-f95fd33a7ad7/cancel",
-    "video_url": "https://d3u0tzju9qaucj.cloudfront.net/3ad99899-48f4-4a85-9687-872203a59fc7/334c859b-e04f-41d1-877f-179d82ae5a81.mp4"
+    "cancel_url": "https://api.higgsfield.ai/requests/5493ddc3-6752-4770-acbc-f95fd33a7ad7/cancel"
   },
   "paid_submissions": 1
 }
