@@ -1,0 +1,58 @@
+{
+  "test_id": "motion-ab-20261017-5eb8719c",
+  "created_at": "2026-10-17T13:33:18+00:00",
+  "reference_image": {
+    "url": "https://raw.githubusercontent.com/marygold60588-pixel/psychology-serial-assets/main/episodes/9c240d17-6697-4d15-8a4b-3cf4faca2610/scene-3.png",
+    "path": "episodes/9c240d17-6697-4d15-8a4b-3cf4faca2610/scene-3.png",
+    "bytes": 1371545,
+    "content_type": "image/png",
+    "dimensions": {
+      "width": 768,
+      "height": 1376
+    }
+  },
+  "scene": "Elena and Andrey, premium apartment, physically close and emotionally unavailable.",
+  "motion_prompt": "Use the reference image as the exact first frame. Preserve the same two people, faces, hair, ages, wardrobe, apartment, and framing.\nScene: Elena and Andrey stand close together in a beautiful premium apartment interior. The relationship is emotionally tense. Elena looks at Andrey, expecting emotional contact. Andrey briefly meets her gaze, then quietly looks away. Elena notices his withdrawal and becomes still. The meaning is physical closeness with emotional unavailability.\nMotion, performed once at natural human speed: natural breathing; subtle eye movement; one slight head movement as Andrey looks away; minimal shoulder movement; Elena becomes still.\nKeep both hands where they already are.\nNo walking. No object interaction. No hand gestures. No touching. No exaggerated facial expressions. No camera movement, zoom, or pan. No extra people. No speaking, no lip movement, no subtitles, no on-screen text, no logo, no watermark.\nDuration: 5 seconds.",
+  "duration_seconds": 5,
+  "differences": [
+    "Kling duration is only 5 or 10 seconds. Seedance accepts 4-30. Both requests use 5.",
+    "Kling Standard has no resolution field and is documented at 720p. Seedance resolution is set to 720p.",
+    "Neither image-to-video schema accepts aspect_ratio. Framing follows the reference image.",
+    "Kling accepts cfg_scale 0.5 and negative_prompt. Seedance rejects unknown fields, so those constraints are included in the shared prompt.",
+    "Seedance generate_audio defaults to true and is set to false. Kling has no audio parameter.",
+    "Seedance bitrate_mode is set to its documented default, high. Kling has no bitrate field."
+  ],
+  "models": {
+    "kling": {
+      "model_id": "kling-video/v2.5-turbo/standard/image-to-video",
+      "request": {
+        "prompt": "Use the reference image as the exact first frame. Preserve the same two people, faces, hair, ages, wardrobe, apartment, and framing.\nScene: Elena and Andrey stand close together in a beautiful premium apartment interior. The relationship is emotionally tense. Elena looks at Andrey, expecting emotional contact. Andrey briefly meets her gaze, then quietly looks away. Elena notices his withdrawal and becomes still. The meaning is physical closeness with emotional unavailability.\nMotion, performed once at natural human speed: natural breathing; subtle eye movement; one slight head movement as Andrey looks away; minimal shoulder movement; Elena becomes still.\nKeep both hands where they already are.\nNo walking. No object interaction. No hand gestures. No touching. No exaggerated facial expressions. No camera movement, zoom, or pan. No extra people. No speaking, no lip movement, no subtitles, no on-screen text, no logo, no watermark.\nDuration: 5 seconds.",
+        "duration": 5,
+        "cfg_scale": 0.5,
+        "image_url": "https://raw.githubusercontent.com/marygold60588-pixel/psychology-serial-assets/main/episodes/9c240d17-6697-4d15-8a4b-3cf4faca2610/scene-3.png",
+        "negative_prompt": "walking, steps, hand gestures, waving, touching, hug, object interaction, exaggerated expression, smile, camera move, zoom, pan, tilt, extra people, speaking, lip movement, subtitles, text, logo, watermark, morphing, identity change, jitter"
+      },
+      "estimate": {
+        "type": "estimate",
+        "credits": "3.360",
+        "usd": "0.210",
+        "discount": null
+      }
+    },
+    "seedance": {
+      "model_id": "bytedance/seedance-2.5/image-to-video",
+      "request": {
+        "prompt": "Use the reference image as the exact first frame. Preserve the same two people, faces, hair, ages, wardrobe, apartment, and framing.\nScene: Elena and Andrey stand close together in a beautiful premium apartment interior. The relationship is emotionally tense. Elena looks at Andrey, expecting emotional contact. Andrey briefly meets her gaze, then quietly looks away. Elena notices his withdrawal and becomes still. The meaning is physical closeness with emotional unavailability.\nMotion, performed once at natural human speed: natural breathing; subtle eye movement; one slight head movement as Andrey looks away; minimal shoulder movement; Elena becomes still.\nKeep both hands where they already are.\nNo walking. No object interaction. No hand gestures. No touching. No exaggerated facial expressions. No camera movement, zoom, or pan. No extra people. No speaking, no lip movement, no subtitles, no on-screen text, no logo, no watermark.\nDuration: 5 seconds.",
+        "duration": 5,
+        "image_url": "https://raw.githubusercontent.com/marygold60588-pixel/psychology-serial-assets/main/episodes/9c240d17-6697-4d15-8a4b-3cf4faca2610/scene-3.png",
+        "resolution": "720p",
+        "bitrate_mode": "high",
+        "generate_audio": false
+      },
+      "estimate": {
+        "type": "description",
+        "pricing_description": "For 16:9 video without video input, your request costs roughly $0.2056 per second of generated video at 480p, $0.4622 at 720p, and $1.1372 at 1080p. Each 1,000 video tokens costs $0.0214 at 480p or 720p and $0.0234 at 1080p. Billable video tokens = ceil(output height × output width × (input video duration + generated video duration) × 24 / 1024). Image and audio references do not count as video input. Actual pricing depends on output dimensions and billable duration. Rates shown are before any applicable customer discount."
+      }
+    }
+  }
+}
