@@ -18,9 +18,9 @@ FONT_FILE = os.environ.get(
 )
 FONT_NAME = os.environ.get("CAPTION_FONT_NAME", "DejaVu Sans")
 POSITIONS = {
-    "hook": (540, 1420),
+    "hook": (540, 1460),
     "body": (540, 1460),
-    "foot": (540, 1660),
+    "foot": (540, 1460),
 }
 
 
@@ -60,8 +60,8 @@ ScaledBorderAndShadow: yes
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
 Style: Hook,%(font)s,46,&H00FFFFFF,&H000000FF,&H00000000,&H64000000,-1,0,0,0,100,100,0,0,1,3,1,5,90,90,0,1
-Style: Body,%(font)s,40,&H00FFFFFF,&H000000FF,&H00000000,&H64000000,-1,0,0,0,100,100,0,0,1,3,1,5,100,100,0,1
-Style: Foot,%(font)s,28,&H00FFFFFF,&H000000FF,&H00000000,&H64000000,-1,0,0,0,100,100,0,0,1,2,1,5,90,90,0,1
+Style: Body,%(font)s,46,&H00FFFFFF,&H000000FF,&H00000000,&H64000000,-1,0,0,0,100,100,0,0,1,3,1,5,90,90,0,1
+Style: Foot,%(font)s,46,&H00FFFFFF,&H000000FF,&H00000000,&H64000000,-1,0,0,0,100,100,0,0,1,3,1,5,90,90,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
